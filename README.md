@@ -1,4 +1,4 @@
-# element-ui2-package
+# element-ui2-custom-component
 
 ## Project setup
 ```
