@@ -34,7 +34,7 @@
     <template v-if="form.type === 'Textarea'">
       <FormTextarea ref="formTextarea" :form-data="form" :form-type="formType" />
     </template>
-    <template v-if="form.type === 'inputNumber'">
+    <template v-if="form.type === 'InputNumber'">
       <FormInputNumber ref="formInputNumber" :form-data="form" :form-type="formType" />
     </template>
     <template v-if="form.type === 'radio'">
@@ -114,7 +114,7 @@ export default {
       formItemMap: {
         'Input': 'formInput',
         'Textarea': 'formTextarea',
-        'inputNumber': 'formInputNumber',
+        'InputNumber': 'formInputNumber',
         'radio': 'formRadio',
         'checkbox': 'formCheckbox',
         'select': 'formSelect',

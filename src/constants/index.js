@@ -1,7 +1,7 @@
 export const Form_Type_Options = [
   { value: 'Input', label: 'Input 输入框' },
   { value: 'Textarea', label: 'Textarea 文本域' },
-  { value: 'inputNumber', label: 'InputNumber 计数器' },
+  { value: 'InputNumber', label: 'InputNumber 计数器' },
   { value: 'radio', label: 'Radio 单选框' },
   { value: 'checkbox', label: 'Checkbox 多选框' },
   { value: 'select', label: 'Select 选择器' },

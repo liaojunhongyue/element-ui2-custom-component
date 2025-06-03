@@ -16,8 +16,9 @@ import store from './store/index.js'
 // 全局组件
 import CuInput from './components/FormItem/CuInput.vue';
 import CuTextarea from './components/FormItem/CuTextarea.vue';
+import CuInputNumber from './components/FormItem/CuInputNumber.vue';
 // 注册全局组件
-[CuInput, CuTextarea].map((item) => {
+[CuInput, CuTextarea, CuInputNumber].map((item) => {
   Vue.component(item.name, item);
 })
 

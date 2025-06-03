@@ -28,7 +28,8 @@ export default {
     return {
       form: {},
       rules: {},
-      stringType: ['Input', 'Textarea']
+      stringType: ['Input', 'Textarea'],
+      numberType: ['InputNumber']
     }
   },
   created() {
@@ -40,6 +41,10 @@ export default {
         } else {
           this.$set(this.form, item.enName, '');
         }
+      }
+      // 处理表单项为数字类型的初始值
+      if (this.numberType.indexOf(item.type) !== -1) {
+        this.$set(this.form, item.enName, undefined);
       }
       // 处理表单验证
       this.$set(this.rules, item.enName, []);
