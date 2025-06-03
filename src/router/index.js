@@ -23,13 +23,13 @@ const router = new VueRouter({
       component: () => import('../pages/mainHome.vue')
     },
     {
-      path: '/settings/form',
-      name: 'mainHome',
-      component: () => import('../pages/formSettings.vue')
+      path: '/form/settings',
+      name: 'formSettings',
+      component: () => import('../pages/formSettings.vue'),
     },
     {
-      path: '/display/form',
-      name: 'mainHome',
+      path: '/form/display',
+      name: 'formDisplay',
       component: () => import('../pages/formDisplay.vue')
     },
   ]

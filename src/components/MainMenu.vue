@@ -1,17 +1,38 @@
 <template>
   <el-menu
+    :default-active="activeIndex"
+    :collapse="false"
     style="height: 100%;"
     background-color="#545c64"
   >
-    <el-menu-item
-      v-for="item in menuList"
-      :key="item.id"
-      :class="{'active-menu': item.path === currentRoutePath}"
-      @click="goPage(item)"
-    >
-      <i :class="item.icon"></i>
-      <span>{{ item.name }}</span>
-    </el-menu-item>
+    <template v-for="item in menuList">
+      <el-menu-item
+        v-if="!item.children"
+        :key="item.id"
+        :index="item.id"
+        :class="{'active-menu': item.path === currentRoutePath}"
+        @click="goPage(item)"
+      >
+        <i :class="item.icon"></i>
+        <span>{{ item.name }}</span>
+      </el-menu-item>
+      <el-submenu
+        v-else
+        :key="item.id"
+        :index="item.id"
+      >
+        <template slot="title">
+          <span class="el-subitem-title"><i :class="item.icon"></i><span>{{ item.name }}</span></span>
+        </template>
+        <el-menu-item
+          v-for="subItem in item.children"
+          :index="subItem.id"
+          :key="subItem.id"
+          :class="{'active-menu': subItem.path === currentRoutePath}"
+          @click="goPage(subItem)"
+        >{{ subItem.name }}</el-menu-item>
+      </el-submenu>
+    </template>
   </el-menu>
 </template>
 <script>
@@ -29,24 +50,31 @@ export default {
         },
         {
           id: '2',
-          name: '表单配置',
-          icon: 'el-icon-s-tools',
-          path: '/settings/form',
-        },
-        {
-          id: '3',
-          name: '表单展示',
+          name: '表单管理',
           icon: 'el-icon-document',
-          path: '/display/form',
+          children: [
+            {
+              id: '2-1',
+              name: '表单配置',
+              path: '/form/settings',
+            },
+            {
+              id: '2-2',
+              name: '表单展示',
+              path: '/form/display',
+            }
+          ]
         },
       ],
       currentRoutePath: '/',
+      activeIndex: ''
     }
   },
   watch: {
     '$route'(to) {
       this.currentRoutePath = to.path;
       const currentMenu = findTreeNode(this.menuList, (n) => n.path == this.currentRoutePath);
+      this.activeIndex = currentMenu.id
       this.$store.commit('setCurrentMenu', currentMenu);
     }
   },
@@ -61,6 +89,9 @@ export default {
 .el-menu-item {
   color: #ffffff;
   background-color: #545c64;
+}
+span.el-subitem-title {
+  color: #ffffff;
 }
 .el-menu-item.active-menu,
 .el-menu-item.active-menu i {
