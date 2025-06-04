@@ -28,24 +28,12 @@ export default {
     return {
       form: {},
       rules: {},
-      stringType: ['Input', 'Textarea'],
-      numberType: ['InputNumber']
     }
   },
   created() {
     this.formSettings.map((item) => {
-      // 处理表单的初始值和默认值
-      if (this.stringType.indexOf(item.type) !== -1) {
-        if (item.defaultValue) {
-          this.$set(this.form, item.enName, item.defaultValue);
-        } else {
-          this.$set(this.form, item.enName, '');
-        }
-      }
-      // 处理表单项为数字类型的初始值
-      if (this.numberType.indexOf(item.type) !== -1) {
-        this.$set(this.form, item.enName, undefined);
-      }
+      // 处理表单的默认值
+      this.$set(this.form, item.enName, undefined);
       // 处理表单验证
       this.$set(this.rules, item.enName, []);
       // 必填

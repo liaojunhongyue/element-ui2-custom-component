@@ -61,6 +61,11 @@ export default {
       }
       let hasItemName = true;
       let changeTime = 0;
+      // 检查选项名是否重复
+      const nameSet = new Set();
+      let hasDuplicate = false;
+      // 检查默认选项是否唯一
+      let defaultCount = 0;
       this.form.itemList.forEach((item) => {
         if (item.name === '' || item.name === null || item.name === undefined) {
           const itemObj = this.$refs['formItem'].$el.querySelector(`.item-list${item.id}`).getElementsByClassName('el-input__inner')[0];
@@ -71,12 +76,49 @@ export default {
           }
           hasItemName = false;
           flag = false;
+        } else if (nameSet.has(item.name)) {
+          // 如果发现重复的选项名
+          hasDuplicate = true;
+          const itemObj = this.$refs['formItem'].$el.querySelector(`.item-list${item.id}`).getElementsByClassName('el-input__inner')[0];
+          itemObj.style.borderColor = '#F56C6C';
+          if (changeTime === 0) {
+            changeTime += 1;
+            itemObj.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+          flag = false;
+        } else {
+          nameSet.add(item.name);
+        }
+        // 统计默认选项数量
+        if (item.isDefault) {
+          defaultCount++;
+          if (defaultCount > 1) {
+            const itemObj = this.$refs['formItem'].$el.querySelector(`.item-list${item.id}`).getElementsByClassName('el-checkbox__inner')[0];
+            if (changeTime === 0) {
+              changeTime += 1;
+              itemObj.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            flag = false;
+          }
         }
       })
       if (!hasItemName) {
         this.$message({
           type: 'warning',
           message: '请输入选项名！'
+        });
+      }
+      if (hasDuplicate) {
+        this.$message({
+          type: 'warning',
+          message: '选项名不能重复！'
+        });
+      }
+      // 验证默认选项唯一性
+      if (defaultCount > 1) {
+        this.$message({
+          type: 'warning',
+          message: '只能设置一个默认选项！'
         });
       }
       return flag;

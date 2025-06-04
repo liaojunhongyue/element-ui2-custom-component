@@ -17,8 +17,10 @@ import store from './store/index.js'
 import CuInput from './components/FormItem/CuInput.vue';
 import CuTextarea from './components/FormItem/CuTextarea.vue';
 import CuInputNumber from './components/FormItem/CuInputNumber.vue';
+import CuRadio from './components/FormItem/CuRadio.vue';
 // 注册全局组件
-[CuInput, CuTextarea, CuInputNumber].map((item) => {
+const componentArr = [CuInput, CuTextarea, CuInputNumber, CuRadio];
+componentArr.map((item) => {
   Vue.component(item.name, item);
 })
 

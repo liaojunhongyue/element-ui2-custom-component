@@ -37,7 +37,7 @@
     <template v-if="form.type === 'InputNumber'">
       <FormInputNumber ref="formInputNumber" :form-data="form" :form-type="formType" />
     </template>
-    <template v-if="form.type === 'radio'">
+    <template v-if="form.type === 'Radio'">
       <FormRadio ref="formRadio" :form-data="form" :form-type="formType" />
     </template>
     <template v-if="form.type === 'checkbox'">
@@ -115,7 +115,7 @@ export default {
         'Input': 'formInput',
         'Textarea': 'formTextarea',
         'InputNumber': 'formInputNumber',
-        'radio': 'formRadio',
+        'Radio': 'formRadio',
         'checkbox': 'formCheckbox',
         'select': 'formSelect',
         'switch': 'formSwitch',
