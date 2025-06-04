@@ -3,7 +3,7 @@ export const Form_Type_Options = [
   { value: 'Textarea', label: 'Textarea 文本域' },
   { value: 'InputNumber', label: 'InputNumber 计数器' },
   { value: 'Radio', label: 'Radio 单选框' },
-  { value: 'checkbox', label: 'Checkbox 多选框' },
+  { value: 'Checkbox', label: 'Checkbox 多选框' },
   { value: 'select', label: 'Select 选择器' },
   { value: 'switch', label: 'Switch 开关' },
   { value: 'timePicker', label: 'TimePicker 时间选择器' },

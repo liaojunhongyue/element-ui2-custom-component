@@ -18,8 +18,9 @@ import CuInput from './components/FormItem/CuInput.vue';
 import CuTextarea from './components/FormItem/CuTextarea.vue';
 import CuInputNumber from './components/FormItem/CuInputNumber.vue';
 import CuRadio from './components/FormItem/CuRadio.vue';
+import CuCheckbox from './components/FormItem/CuCheckbox.vue';
 // 注册全局组件
-const componentArr = [CuInput, CuTextarea, CuInputNumber, CuRadio];
+const componentArr = [CuInput, CuTextarea, CuInputNumber, CuRadio, CuCheckbox];
 componentArr.map((item) => {
   Vue.component(item.name, item);
 })

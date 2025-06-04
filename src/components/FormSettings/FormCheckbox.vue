@@ -61,6 +61,8 @@ export default {
       }
       let hasItemName = true;
       let changeTime = 0;
+      const nameSet = new Set();
+      let hasDuplicate = false;
       this.form.itemList.forEach((item) => {
         if (item.name === '' || item.name === null || item.name === undefined) {
           const itemObj = this.$refs['formItem'].$el.querySelector(`.item-list${item.id}`).getElementsByClassName('el-input__inner')[0];
@@ -71,12 +73,29 @@ export default {
           }
           hasItemName = false;
           flag = false;
+        } else if (nameSet.has(item.name)) {
+          hasDuplicate = true;
+          const itemObj = this.$refs['formItem'].$el.querySelector(`.item-list${item.id}`).getElementsByClassName('el-input__inner')[0];
+          itemObj.style.borderColor = '#F56C6C';
+          if (changeTime === 0) {
+            changeTime += 1;
+            itemObj.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+          flag = false;
+        } else {
+          nameSet.add(item.name);
         }
       })
       if (!hasItemName) {
         this.$message({
           type: 'warning',
           message: '请输入选项名！'
+        });
+      }
+      if (hasDuplicate) {
+        this.$message({
+          type: 'warning',
+          message: '选项名不能重复！'
         });
       }
       return flag;
