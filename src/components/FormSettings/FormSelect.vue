@@ -120,9 +120,9 @@ export default {
   data() {
     return {
       form: {
-        isClearable: 1,
+        isClearable: true,
         placeholder: '',
-        isMultiple: 0,
+        isMultiple: false,
         selectType: 1,
         itemList: [
           { id: 1, name: '', isDefault: false }
@@ -130,12 +130,12 @@ export default {
         groupItemList: [
           { id: 1, label: '', itemList: [ { id: 1, name: '', isDefault: false } ] }
         ],
-        isFilterable: 0,
-        isAllowCreate: 0,
+        isFilterable: false,
+        isAllowCreate: false,
       },
       flagOptions: [
-        { value: 1, label: '是' },
-        { value: 0, label: '否' }
+        { value: true, label: '是' },
+        { value: false, label: '否' }
       ],
       selectTypeOptions: [
         { value: 1, label: '普通选项' },
@@ -174,6 +174,11 @@ export default {
           });
           flag = false;
         }
+        // 检查选项名是否重复
+        const nameSet = new Set();
+        let hasDuplicate = false;
+        // 检查单选模式下的默认选项数量
+        let defaultCount = 0;
         this.form.itemList.forEach((item) => {
           if (item.name === '' || item.name === null || item.name === undefined) {
             const itemObj = this.$refs['formItem'].$el.querySelector(`.item-list${item.id}`).getElementsByClassName('el-input__inner')[0];
@@ -184,8 +189,45 @@ export default {
             }
             hasItemName = false;
             flag = false;
+          } else if (nameSet.has(item.name)) {
+            // 如果发现重复的选项名
+            hasDuplicate = true;
+            const itemObj = this.$refs['formItem'].$el.querySelector(`.item-list${item.id}`).getElementsByClassName('el-input__inner')[0];
+            itemObj.style.borderColor = '#F56C6C';
+            if (changeTime === 0) {
+              changeTime += 1;
+              itemObj.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            flag = false;
+          } else {
+            nameSet.add(item.name);
+          }
+          // 统计默认选项数量
+          if (item.isDefault) {
+            defaultCount++;
+            if (!this.form.isMultiple && defaultCount > 1) {
+              const itemObj = this.$refs['formItem'].$el.querySelector(`.item-list${item.id}`).getElementsByClassName('el-checkbox__inner')[0];
+              if (changeTime === 0) {
+                changeTime += 1;
+                itemObj.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }
+              flag = false;
+            }
           }
         })
+        if (hasDuplicate) {
+          this.$message({
+            type: 'warning',
+            message: '选项名不能重复！'
+          });
+        }
+        // 验证单选模式下的默认选项数量
+        if (!this.form.isMultiple && defaultCount > 1) {
+          this.$message({
+            type: 'warning',
+            message: '单选模式下只能设置一个默认选项！'
+          });
+        }
       }
       if (this.form.selectType == 2) {
         if (this.form.groupItemList.length === 0) {
@@ -205,18 +247,60 @@ export default {
             }
             hasItemName = false;
             flag = false;
-            group.itemList.forEach((item) => {
-              if (item.name === '' || item.name === null || item.name === undefined) {
-                const itemObj = this.$refs['formItem'].$el.querySelector(`.item-list${group.id}${item.id}`).getElementsByClassName('el-input__inner')[0];
-                itemObj.style.borderColor = '#F56C6C';
+          }
+          // 检查同一组内选项名是否重复
+          const nameSet = new Set();
+          let hasDuplicate = false;
+          // 检查单选模式下的默认选项数量
+          let defaultCount = 0;
+          group.itemList.forEach((item) => {
+            if (item.name === '' || item.name === null || item.name === undefined) {
+              const itemObj = this.$refs['formItem'].$el.querySelector(`.item-list${group.id}${item.id}`).getElementsByClassName('el-input__inner')[0];
+              itemObj.style.borderColor = '#F56C6C';
+              if (changeTime === 0) {
+                changeTime += 1;
+                itemObj.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }
+              hasItemName = false;
+              flag = false;
+            } else if (nameSet.has(item.name)) {
+              // 如果发现重复的选项名
+              hasDuplicate = true;
+              const itemObj = this.$refs['formItem'].$el.querySelector(`.item-list${group.id}${item.id}`).getElementsByClassName('el-input__inner')[0];
+              itemObj.style.borderColor = '#F56C6C';
+              if (changeTime === 0) {
+                changeTime += 1;
+                itemObj.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }
+              flag = false;
+            } else {
+              nameSet.add(item.name);
+            }
+            // 统计默认选项数量
+            if (item.isDefault) {
+              defaultCount++;
+              if (!this.form.isMultiple && defaultCount > 1) {
+                const itemObj = this.$refs['formItem'].$el.querySelector(`.item-list${group.id}${item.id}`).getElementsByClassName('el-checkbox__inner')[0];
                 if (changeTime === 0) {
                   changeTime += 1;
                   itemObj.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
-                hasItemName = false;
                 flag = false;
               }
-            })
+            }
+          });
+          if (hasDuplicate) {
+            this.$message({
+              type: 'warning',
+              message: `分组"${group.label || '未命名'}"中的选项名不能重复！`
+            });
+          }
+          // 验证单选模式下的默认选项数量
+          if (!this.form.isMultiple && defaultCount > 1) {
+            this.$message({
+              type: 'warning',
+              message: `分组"${group.label || '未命名'}"中单选模式下只能设置一个默认选项！`
+            });
           }
         })
       }

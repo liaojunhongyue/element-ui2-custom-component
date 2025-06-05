@@ -43,7 +43,7 @@
     <template v-if="form.type === 'Checkbox'">
       <FormCheckbox ref="formCheckbox" :form-data="form" :form-type="formType" />
     </template>
-    <template v-if="form.type === 'select'">
+    <template v-if="form.type === 'Select'">
       <FormSelect ref="formSelect" :form-data="form" :form-type="formType" />
     </template>
     <template v-if="form.type === 'switch'">
@@ -117,7 +117,7 @@ export default {
         'InputNumber': 'formInputNumber',
         'Radio': 'formRadio',
         'Checkbox': 'formCheckbox',
-        'select': 'formSelect',
+        'Select': 'formSelect',
         'switch': 'formSwitch',
         'timePicker': 'formTimePicker',
         'datePicker': 'formDatePicker',
