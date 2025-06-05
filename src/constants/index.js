@@ -5,7 +5,7 @@ export const Form_Type_Options = [
   { value: 'Radio', label: 'Radio 单选框' },
   { value: 'Checkbox', label: 'Checkbox 多选框' },
   { value: 'Select', label: 'Select 选择器' },
-  { value: 'switch', label: 'Switch 开关' },
+  { value: 'Switch', label: 'Switch 开关' },
   { value: 'timePicker', label: 'TimePicker 时间选择器' },
   { value: 'datePicker', label: 'DatePicker 日期选择器' },
   { value: 'dateTimePicker', label: 'DateTimePicker 日期时间选择器' },
