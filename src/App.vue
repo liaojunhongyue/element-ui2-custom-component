@@ -58,6 +58,9 @@ html, body {
 .cursor-pointer {
   cursor: pointer;
 }
+.text-align-center {
+  text-align: center;
+}
 /* element-ui 全局样式修改 */
 .el-select {
   width: 100%;

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+    <el-form ref="form" :model="form" :rules="rules" label-width="180px">
       <el-form-item
         v-for="item in formSettings" 
         :key="item.enName"
