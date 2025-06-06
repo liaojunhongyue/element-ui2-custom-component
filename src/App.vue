@@ -71,6 +71,15 @@ div.el-date-editor.el-input {
 div.el-date-editor--timerange.el-input__inner {
   width: 100%;
 }
+div.el-date-editor--monthrange.el-input__inner {
+  width: 100%;
+}
+div.el-date-editor--daterange.el-input__inner {
+  width: 100%;
+}
+div.el-date-editor--datetimerange.el-input__inner {
+  width: 100%;
+}
 /* 表单全局样式 */
 .double-line-item .el-form-item__label {
   line-height: 22px;

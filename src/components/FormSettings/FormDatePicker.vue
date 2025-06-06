@@ -11,27 +11,15 @@
       </el-select>
     </el-form-item>
     <el-form-item label="默认值：">
-      <el-date-picker v-model="form.defaultValue" :type="form.datePickerType" placeholder="选择默认值"></el-date-picker>
-    </el-form-item>
-    <el-form-item v-if="form.datePickerType === 'datetimerange'">
-      <template #label>
-        <span>
-          默认时间
-          <el-tooltip class="item" effect="dark" content="仅支持日期时间范围类型。不指定结束时间会使用时刻 00:00:00" placement="top-start">
-            <i class="el-icon-info cursor-pointer"></i>
-          </el-tooltip>
-          ：
-        </span>
-      </template>
-      <el-time-picker
-        is-range
-        v-model="form.defaultTime"
-        value-format="HH:mm:ss"
-        range-separator="至"
-        start-placeholder="开始时间"
-        end-placeholder="结束时间"
-        placeholder="选择时间范围">
-      </el-time-picker>
+      <el-date-picker
+        v-model="form.defaultValue"
+        :type="form.datePickerType"
+        :value-format="typeFormatMap[form.datePickerType]"
+        :format="form.datePickerType === 'week' ? 'yyyy 第 WW 周' : undefined"
+        start-placeholder="开始"
+        end-placeholder="结束"
+        placeholder="选择默认值"
+      ></el-date-picker>
     </el-form-item>
     <el-form-item class="double-line-item" label="文本框是否可输入：">
       <el-select v-model="form.isEditable" placeholder="请选择文本框是否可输入">
@@ -122,14 +110,13 @@ export default {
       form: {
         datePickerType: 'date',
         defaultValue: '',
-        defaultTime: ['', ''],
-        isEditable: 1,
-        isClearable: 1,
+        isEditable: true,
+        isClearable: true,
         placeholder: '',
         startPlaceholder: '',
         endPlaceholder: '',
         rangeSeparator: '',
-        isUnlinkPanels: 0,
+        isUnlinkPanels: false,
         prefixIcon: '',
         clearIcon: ''
       },
@@ -146,10 +133,23 @@ export default {
         { value: 'daterange', label: '日期范围 daterange' },
         { value: 'monthrange', label: '月份范围 monthrange' }
       ],
+      typeFormatMap: {
+        'year': 'yyyy',
+        'month': 'yyyy-MM',
+        'date': 'yyyy-MM-dd',
+        'years': 'yyyy',
+        'months': 'yyyy-MM',
+        'dates': 'yyyy-MM-dd',
+        'week': 'yyyy-MM-dd',
+        'datetime': 'yyyy-MM-dd HH:mm:ss',
+        'datetimerange': 'yyyy-MM-dd HH:mm:ss',
+        'daterange': 'yyyy-MM-dd',
+        'monthrange': 'yyyy-MM'
+      },
       rangeTypeList: ['datetimerange', 'daterange', 'monthrange'],
       flagOptions: [
-        { value: 1, label: '是' },
-        { value: 0, label: '否' }
+        { value: true, label: '是' },
+        { value: false, label: '否' }
       ],
       iconOptions: Icon_Options,
     }
@@ -173,7 +173,6 @@ export default {
     // 修改选择器形式
     changeDatePickerType() {
       this.form.defaultValue = '';
-      this.form.defaultTime = ['', ''];
     }
   }
 }

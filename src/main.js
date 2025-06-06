@@ -22,8 +22,9 @@ import CuCheckbox from './components/FormItem/CuCheckbox.vue';
 import CuSelect from './components/FormItem/CuSelect.vue';
 import CuSwitch from './components/FormItem/CuSwitch.vue';
 import CuTimePicker from './components/FormItem/CuTimePicker.vue';
+import CuDatePicker from './components/FormItem/CuDatePicker.vue';
 // 注册全局组件
-const componentArr = [CuInput, CuTextarea, CuInputNumber, CuRadio, CuCheckbox, CuSelect, CuSwitch, CuTimePicker];
+const componentArr = [CuInput, CuTextarea, CuInputNumber, CuRadio, CuCheckbox, CuSelect, CuSwitch, CuTimePicker, CuDatePicker];
 componentArr.map((item) => {
   Vue.component(item.name, item);
 })

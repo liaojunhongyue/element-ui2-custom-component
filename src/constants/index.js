@@ -7,7 +7,7 @@ export const Form_Type_Options = [
   { value: 'Select', label: 'Select 选择器' },
   { value: 'Switch', label: 'Switch 开关' },
   { value: 'TimePicker', label: 'TimePicker 时间选择器' },
-  { value: 'datePicker', label: 'DatePicker 日期选择器' },
+  { value: 'DatePicker', label: 'DatePicker 日期选择器' },
   { value: 'dateTimePicker', label: 'DateTimePicker 日期时间选择器' },
 ]
 
