@@ -8,7 +8,7 @@ export const Form_Type_Options = [
   { value: 'Switch', label: 'Switch 开关' },
   { value: 'TimePicker', label: 'TimePicker 时间选择器' },
   { value: 'DatePicker', label: 'DatePicker 日期选择器' },
-  { value: 'dateTimePicker', label: 'DateTimePicker 日期时间选择器' },
+  { value: 'DateTimePicker', label: 'DateTimePicker 日期时间选择器' },
 ]
 
 export const Icon_Options = [
