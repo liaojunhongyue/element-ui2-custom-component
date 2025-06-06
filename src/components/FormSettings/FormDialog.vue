@@ -58,6 +58,9 @@
     <template v-if="form.type === 'DateTimePicker'">
       <FormDateTimePicker ref="formDateTimePicker" :form-data="form" :form-type="formType" />
     </template>
+    <template v-if="form.type === 'CustomItem'">
+      <FormCustomItem ref="formCustomItem" :form-data="form" :form-type="formType" />
+    </template>
   </el-form>
 </template>
 <script>
@@ -72,6 +75,7 @@ import FormSwitch from './FormSwitch.vue';
 import FormTimePicker from './FormTimePicker.vue';
 import FormDatePicker from './FormDatePicker.vue';
 import FormDateTimePicker from './FormDateTimePicker.vue';
+import FormCustomItem from './ FormCustomItem.vue';
 
 export default {
   props: ['formShow', 'formType', 'formData', 'tableEnNameList'],
@@ -85,7 +89,8 @@ export default {
     FormSwitch,
     FormTimePicker,
     FormDatePicker,
-    FormDateTimePicker
+    FormDateTimePicker,
+    FormCustomItem
   },
   data() {
     return {
@@ -121,7 +126,8 @@ export default {
         'Switch': 'formSwitch',
         'TimePicker': 'formTimePicker',
         'DatePicker': 'formDatePicker',
-        'DateTimePicker': 'formDateTimePicker'
+        'DateTimePicker': 'formDateTimePicker',
+        'CustomItem': 'formCustomItem'
       }
     }
   },
@@ -140,7 +146,8 @@ export default {
       try {
         await this.$refs['form'].validate();
         const validateForm = this.$refs[this.formItemMap[this.form.type]].validateForm;
-        if (validateForm && validateForm() === false) {
+        const validateResult = await validateForm();
+        if (validateForm && validateResult === false) {
           return;
         }
         Object.assign(this.form, this.$refs[this.formItemMap[this.form.type]].getValues());

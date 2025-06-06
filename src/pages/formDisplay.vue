@@ -8,7 +8,7 @@
         :prop="item.enName"
       >
         <component 
-          :is="`Cu${item.type}`"
+          :is="item.type !== 'CustomItem' ? `Cu${item.type}` : item.customName"
           :item-settings="item"
           :item-value="form[item.enName]"
           @get-value="getValue"
