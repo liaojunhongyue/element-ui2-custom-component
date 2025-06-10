@@ -70,7 +70,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8" v-show="form.prefixIcon" class="icon-choose-display">
-        <span>当前选择的图标是：<i :class="form.prefixIcon"></i></span>
+        <span>所选图标：<i :class="form.prefixIcon"></i></span>
       </el-col>
     </el-row>
     <el-row :gutter="20">
@@ -89,7 +89,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8" v-show="form.suffixIcon" class="icon-choose-display">
-        <span>当前选择的图标是：<i :class="form.suffixIcon"></i></span>
+        <span>所选图标：<i :class="form.suffixIcon"></i></span>
       </el-col>
     </el-row>
     <el-form-item label="前置元素：" prop="prependSlot">

@@ -18,21 +18,23 @@ export default {
   props: ['itemSettings', 'itemValue'],
   data() {
     return {
-      attrs: {}
+      attrs: {},
+      value: ''
     }
   },
-  computed: {
-    value: {
-      get() {
-        return this.itemValue !== undefined ? this.itemValue : this.getDefaultValue();
-      },
-      set(newVal) {
-        this.$emit('get-value', this.itemSettings.enName, newVal);
-      }
-    }
+  watch: {
+    itemValue(newVal) {
+      this.value = newVal;
+    },
+    value() {
+      this.emitVal();
+    },
   },
   mounted() {
-    this.value = this.itemValue;
+    // 初始值处理
+    this.value = this.itemValue !== undefined ? this.itemValue : this.getDefaultValue();
+    this.emitVal();
+
     // 字数属性处理
     if (this.itemSettings.isLimitLength) {
       // 最小字数
@@ -59,6 +61,10 @@ export default {
         return this.itemSettings.defaultValue;
       }
       return '';
+    },
+    // 向Form派发value值
+    emitVal() {
+      this.$emit('get-value', this.itemSettings.enName, this.value);
     }
   }
 }
