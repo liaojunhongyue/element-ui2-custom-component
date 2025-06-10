@@ -1,6 +1,7 @@
 <template>
   <div>
-    <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+    <section class="tips" v-if="(formSettings || []).length === 0">请先在表单配置页面进行配置，然后即可展示配置的表单。</section>
+    <el-form ref="form" :model="form" :rules="rules" label-width="200px">
       <el-form-item
         v-for="item in formSettings" 
         :key="item.enName"
@@ -13,6 +14,11 @@
           :item-value="form[item.enName]"
           @get-value="getValue"
         ></component>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="submitForm('form')">提交</el-button>
+        <el-button type="primary" plain @click="clearValidate('form')">清空校验</el-button>
+        <el-button @click="resetForm('form')">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -32,7 +38,7 @@ export default {
   },
   created() {
     this.formSettings.map((item) => {
-      // 处理表单的默认值
+      // 处理表单的初始值
       this.$set(this.form, item.enName, undefined);
       // 处理表单验证
       this.$set(this.rules, item.enName, []);
@@ -74,12 +80,28 @@ export default {
     this.$nextTick(() => {
       this.$refs.form.clearValidate();
     })
-    console.log(this.form)
   },
   methods: {
     getValue(enName, value) {
       this.form[enName] = value;
-      console.log(this.form)
+    },
+    // 表单-提交
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert('提交');
+        } else {
+          return false;
+        }
+      });
+    },
+    // 表单-重置
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
+    // 表单-清空校验
+    clearValidate(formName) {
+      this.$refs[formName].clearValidate();
     }
   }
 }
