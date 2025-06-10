@@ -118,7 +118,7 @@ export default {
       this.dialogType = type;
       if (this.dialogType === 'edit') {
         this.editRowId = row.id;
-        this.formData = row;
+        this.formData = JSON.parse(JSON.stringify(row));
       }
       this.dialogVisible = true;
     },

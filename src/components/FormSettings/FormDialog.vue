@@ -105,7 +105,7 @@ export default {
       rules: {
         name: [
           { required: true, message: '请输入项目名称', trigger: 'blur' },
-          { max: 10, message: '长度不能超过10个字符', trigger: 'blur' }
+          { max: 20, message: '长度不能超过20个字符', trigger: 'blur' }
         ],
         enName: [
           { required: true, message: '请输入项目英文名称', trigger: 'blur' },
@@ -146,9 +146,9 @@ export default {
       try {
         await this.$refs['form'].validate();
         const validateForm = this.$refs[this.formItemMap[this.form.type]].validateForm;
-        const validateResult = await validateForm();
-        if (validateForm && validateResult === false) {
-          return;
+        if (validateForm) {
+          const validateResult = await validateForm();
+          if (validateResult === false) return;
         }
         Object.assign(this.form, this.$refs[this.formItemMap[this.form.type]].getValues());
         this.$emit('form-submit', this.form);
