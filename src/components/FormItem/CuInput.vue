@@ -1,7 +1,6 @@
 <template>
   <el-input
     v-model="value"
-    @input="inputVal()"
     :disabled="itemSettings.isDisabled"
     :clearable="itemSettings.isClearable"
     :show-word-limit="itemSettings.isShowWordLimit"
@@ -19,8 +18,17 @@ export default {
   props: ['itemSettings', 'itemValue'],
   data() {
     return {
-      value: '',
       attrs: {}
+    }
+  },
+  computed: {
+    value: {
+      get() {
+        return this.itemValue !== undefined ? this.itemValue : this.getDefaultValue();
+      },
+      set(newVal) {
+        this.$emit('get-value', this.itemSettings.enName, newVal);
+      }
     }
   },
   mounted() {
@@ -45,8 +53,12 @@ export default {
     }
   },
   methods: {
-    inputVal() {
-      this.$emit('get-value', this.itemSettings.enName, this.value);
+    // 获取默认值
+    getDefaultValue() {
+      if (this.itemSettings.defaultValue) {
+        return this.itemSettings.defaultValue;
+      }
+      return '';
     }
   }
 }
