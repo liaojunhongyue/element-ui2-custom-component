@@ -71,8 +71,8 @@ export default {
         placeholder: '',
         rows: 2,
         isAutosize: false,
-        minRows: 1,
-        maxRows: 1,
+        minRows: 2,
+        maxRows: 2,
       },
       flagOptions: [
         { value: true, label: '是' },
@@ -115,6 +115,13 @@ export default {
         this.$message({
             type: 'warning',
             message: '如果需要显示字数统计，则需要填写最大字数'
+          });
+          return false;
+      }
+      if (this.form.isAutosize && this.form.minRows && this.form.maxRows && this.form.minRows > this.form.maxRows) {
+        this.$message({
+            type: 'warning',
+            message: '自适应的最小行数不能大于自适应的最大行数'
           });
           return false;
       }
