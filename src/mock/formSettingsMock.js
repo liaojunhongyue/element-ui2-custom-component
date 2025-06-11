@@ -119,12 +119,12 @@
     "isRequired": true,
     "itemList": [
       {
-        "id": 1,
+        "frontId": 1,
         "name": "男",
         "isDefault": false
       },
       {
-        "id": 2,
+        "frontId": 2,
         "name": "女",
         "isDefault": false
       }

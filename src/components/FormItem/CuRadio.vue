@@ -1,7 +1,6 @@
 <template>
   <el-radio-group
     v-model="value"
-    @change="inputVal()"
     :disabled="itemSettings.isDisabled"
     v-bind="attrs"
   >
@@ -25,18 +24,28 @@ export default {
       attrs: {}
     }
   },
+  watch: {
+    itemValue(newVal) {
+      this.value = newVal;
+    },
+    value() {
+      this.emitVal();
+    },
+  },
   mounted() {
     // 设置默认值
     this.value = this.itemValue !== undefined ? this.itemValue : this.getDefaultValue();
+    this.emitVal();
   },
   methods: {
-    inputVal() {
-      this.$emit('get-value', this.itemSettings.enName, this.value);
-    },
     // 获取默认选中的值
     getDefaultValue() {
       const defaultItem = this.itemSettings.itemList.find(item => item.isDefault);
       return defaultItem ? defaultItem.name : '';
+    },
+    // 向Form派发value值
+    emitVal() {
+      this.$emit('get-value', this.itemSettings.enName, this.value);
     }
   }
 }
