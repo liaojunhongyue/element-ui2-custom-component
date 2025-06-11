@@ -61,6 +61,8 @@ export default {
       const nameSet = new Set();
       // 检查默认选项是否唯一
       let defaultCount = 0;
+      // 弹出框的弹出次数
+      let changeTime = 0;
       this.form.itemList.forEach((item) => {
         const nameObj = this.$refs['formItem'].$el.querySelector(`.item-list${item.frontId}`).getElementsByClassName('el-input__inner')[0];
         const nameField = this.$refs.formItem.fields.find(field => field.prop === `item-list-name${item.frontId}`);
@@ -88,10 +90,13 @@ export default {
             defaultCount++;
             if (defaultCount > 1) {
               this.validateError(defaultObj, defaultField, '');
-              this.$message({
-                type: 'warning',
-                message: '单选框只能设置一个默认选项！'
-              });
+              if (changeTime === 0) {
+                changeTime += 1;
+                this.$message({
+                  type: 'warning',
+                  message: '单选框只能设置一个默认选项！'
+                });
+              }
               flag = false;
             }
           }
