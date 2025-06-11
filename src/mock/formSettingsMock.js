@@ -168,28 +168,28 @@
     "selectType": 1,
     "itemList": [
       {
-        "id": 1,
+        "frontId": 1,
         "name": "高中",
         "isDefault": false
       },
       {
-        "id": 2,
+        "frontId": 2,
         "name": "本科",
         "isDefault": false
       },
       {
-        "id": 3,
+        "frontId": 3,
         "name": "硕士",
         "isDefault": false
       }
     ],
     "groupItemList": [
       {
-        "id": 1,
+        "frontId": 1,
         "label": "",
         "itemList": [
           {
-            "id": 1,
+            "frontId": 1,
             "name": "",
             "isDefault": false
           }
@@ -212,38 +212,38 @@
     "selectType": 2,
     "itemList": [
       {
-        "id": 1,
+        "frontId": 1,
         "name": "",
         "isDefault": false
       }
     ],
     "groupItemList": [
       {
-        "id": 1,
+        "frontId": 1,
         "label": "热门城市",
         "itemList": [
           {
-            "id": 1,
+            "frontId": 1,
             "name": "北京",
             "isDefault": false
           },
           {
-            "id": 2,
+            "frontId": 2,
             "name": "天津",
             "isDefault": false
           }
         ]
       },
       {
-        "id": 2,
+        "frontId": 2,
         "itemList": [
           {
-            "id": 1,
+            "frontId": 1,
             "name": "北京",
             "isDefault": false
           },
           {
-            "id": 2,
+            "frontId": 2,
             "name": "蚌埠",
             "isDefault": false
           }
@@ -251,15 +251,15 @@
         "label": "B"
       },
       {
-        "id": 3,
+        "frontId": 3,
         "itemList": [
           {
-            "id": 1,
+            "frontId": 1,
             "name": "天津",
             "isDefault": false
           },
           {
-            "id": 2,
+            "frontId": 2,
             "name": "铁岭",
             "isDefault": false
           }
