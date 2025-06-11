@@ -3,10 +3,10 @@
     <el-form-item label="可选择项目：">
       <el-button plain @click="addItem">+ 新增</el-button>
     </el-form-item>
-    <el-row :class="'item-list' + item.id" :gutter="10" v-for="(item, index) in form.itemList" :key="item.id">
+    <el-row :class="'item-list' + item.frontId" :gutter="10" v-for="(item, index) in form.itemList" :key="item.frontId">
       <el-col :span="14">
-        <el-form-item label="选项名：">
-          <el-input v-model="item.name" placeholder="请输入选项名"></el-input>
+        <el-form-item label="选项名：" :prop="'item-list-name' + item.frontId">
+          <el-input v-model="item.name" placeholder="请输入选项名" @blur="validateItem('item-list-name' + item.frontId)"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="8">
@@ -27,10 +27,10 @@ export default {
     return {
       form: {
         itemList: [
-          { id: 1, name: '', isDefault: false }
+          { frontId: 1, name: '', isDefault: false }
         ],
       },
-      itemListId: 1,
+      itemListFrontId: 1,
     }
   },
   watch: {
@@ -50,6 +50,48 @@ export default {
       console.log(this.form)
       return this.form;
     },
+    validateError(itemObj, targetField, errorTips) {
+      targetField.validateState = 'error';
+      targetField.validateMessage = errorTips;
+      itemObj.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    },
+    validateItem(targetItem) {
+      let flag = true;
+      // 检查选项名是否重复
+      const nameSet = new Set();
+      this.form.itemList.forEach((item) => {
+        const nameObj = this.$refs.formItem.$el.querySelector(`.item-list${item.frontId}`).getElementsByClassName('el-input__inner')[0];
+        const nameField = this.$refs.formItem.fields.find(field => field.prop === `item-list-name${item.frontId}`);
+        if (!targetItem) {
+          // 验证整体表单
+          // 先将验证状态设置为通过
+          nameField.validateState = 'success';
+          nameField.validateMessage = '';
+          // 验证选项名
+          if (item.name === '' || item.name === null || item.name === undefined) {
+            this.validateError(nameObj, nameField, '请输入选项名');
+            flag = false;
+          } else if (nameSet.has(item.name)) {
+            this.validateError(nameObj, nameField, '选项名不能重复');
+            flag = false;
+          } else {
+            nameSet.add(item.name);
+          }
+        } else if (targetItem === `item-list-name${item.frontId}`) {
+          // 验证选项名
+          const nameList = [];
+          this.form.itemList.filter((i) => i.frontId !== item.frontId).map((v) => nameList.push(v.name));
+          if (item.name === '' || item.name === null || item.name === undefined) {
+            this.validateError(nameObj, nameField, '请输入选项名');
+          } else if (nameList.indexOf(item.name) !== -1) {
+            this.validateError(nameObj, nameField, '选项名不能重复');
+          } else {
+            this.$refs['formItem'].clearValidate(targetItem);
+          }
+        }
+      })
+      return flag;
+    },
     validateForm() {
       let flag = true;
       if (this.form.itemList.length === 0) {
@@ -59,52 +101,16 @@ export default {
         });
         flag = false;
       }
-      let hasItemName = true;
-      let changeTime = 0;
-      const nameSet = new Set();
-      let hasDuplicate = false;
-      this.form.itemList.forEach((item) => {
-        if (item.name === '' || item.name === null || item.name === undefined) {
-          const itemObj = this.$refs['formItem'].$el.querySelector(`.item-list${item.id}`).getElementsByClassName('el-input__inner')[0];
-          itemObj.style.borderColor = '#F56C6C';
-          if (changeTime === 0) {
-            changeTime += 1;
-            itemObj.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
-          hasItemName = false;
-          flag = false;
-        } else if (nameSet.has(item.name)) {
-          hasDuplicate = true;
-          const itemObj = this.$refs['formItem'].$el.querySelector(`.item-list${item.id}`).getElementsByClassName('el-input__inner')[0];
-          itemObj.style.borderColor = '#F56C6C';
-          if (changeTime === 0) {
-            changeTime += 1;
-            itemObj.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
-          flag = false;
-        } else {
-          nameSet.add(item.name);
-        }
-      })
-      if (!hasItemName) {
-        this.$message({
-          type: 'warning',
-          message: '请输入选项名！'
-        });
-      }
-      if (hasDuplicate) {
-        this.$message({
-          type: 'warning',
-          message: '选项名不能重复！'
-        });
+      if (flag) {
+        flag = this.validateItem();
       }
       return flag;
     },
     // 新增选项
     addItem() {
-      this.itemListId += 1;
+      this.itemListFrontId = Math.max(...this.form.itemList.map(item => item.frontId)) + 1;
       this.form.itemList.push({
-        id: this.itemListId,
+        id: this.itemListFrontId,
         name: '',
         isDefault: false
       })

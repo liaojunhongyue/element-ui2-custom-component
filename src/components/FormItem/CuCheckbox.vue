@@ -1,7 +1,6 @@
 <template>
   <el-checkbox-group
     v-model="value"
-    @change="inputVal()"
     :disabled="itemSettings.isDisabled"
     v-bind="attrs"
   >
@@ -25,19 +24,29 @@ export default {
       attrs: {}
     }
   },
+  watch: {
+    itemValue(newVal) {
+      this.value = newVal;
+    },
+    value() {
+      this.emitVal();
+    },
+  },
   mounted() {
-    // 设置默认值
-    this.value = this.itemValue !== undefined ? this.itemValue : this.getDefaultValues();
+    // 初始值处理
+    this.value = this.itemValue !== undefined ? this.itemValue : this.getDefaultValue();
+    this.emitVal();
   },
   methods: {
-    inputVal() {
-      this.$emit('get-value', this.itemSettings.enName, this.value);
-    },
     // 获取默认选中的值
-    getDefaultValues() {
+    getDefaultValue() {
       return this.itemSettings.itemList
         .filter(item => item.isDefault)
         .map(item => item.name);
+    },
+    // 向Form派发value值
+    emitVal() {
+      this.$emit('get-value', this.itemSettings.enName, this.value);
     }
   }
 }

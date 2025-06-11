@@ -139,17 +139,17 @@
     "isRequired": true,
     "itemList": [
       {
-        "id": 1,
+        "frontId": 1,
         "name": "看书",
         "isDefault": false
       },
       {
-        "id": 2,
+        "frontId": 2,
         "name": "唱歌",
         "isDefault": false
       },
       {
-        "id": 3,
+        "frontId": 3,
         "name": "跳舞",
         "isDefault": false
       }
