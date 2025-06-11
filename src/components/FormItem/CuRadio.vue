@@ -33,7 +33,7 @@ export default {
     },
   },
   mounted() {
-    // 设置默认值
+    // 初始值处理
     this.value = this.itemValue !== undefined ? this.itemValue : this.getDefaultValue();
     this.emitVal();
   },
