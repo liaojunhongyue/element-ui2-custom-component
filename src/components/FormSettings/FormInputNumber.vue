@@ -20,7 +20,7 @@
       </el-radio-group>
     </el-form-item>
     <el-form-item label="精度：">
-      <el-input-number v-model="form.precision" :min="1" :step="1" step-strictly></el-input-number>
+      <el-input-number v-model="form.precision" :min="0" :step="1" step-strictly></el-input-number>
     </el-form-item>
     <el-form-item label="步数：">
       <el-input-number v-model="form.step"></el-input-number>
@@ -50,11 +50,11 @@ export default {
         controlsPosition: 'default',
         precision: undefined,
         step: undefined,
-        isStepStrictly: 0
+        isStepStrictly: false
       },
       flagOptions: [
-        { value: 1, label: '是' },
-        { value: 0, label: '否' }
+        { value: true, label: '是' },
+        { value: false, label: '否' }
       ],
     }
   },
@@ -98,6 +98,59 @@ export default {
             message: '默认值应该小于最大值'
           });
           return false;
+        }
+      }
+      if (this.form.precision !== undefined) {
+        // 获取小数位数
+        const getDecimalPlaces = (num) => {
+          if (num === undefined || num === '') return 0;
+          const str = num.toString();
+          const decimal = str.split('.')[1];
+          return decimal ? decimal.length : 0;
+        };
+
+        if (this.form.step !== undefined) {
+          const stepDecimalPlaces = getDecimalPlaces(this.form.step);
+          if (this.form.precision < stepDecimalPlaces) {
+            this.$message({
+              type: 'warning',
+              message: '精度不能小于步数的小数位数'
+            });
+            return false;
+          }
+        }
+
+        if (this.form.defaultValue !== undefined) {
+          const defaultValueDecimalPlaces = getDecimalPlaces(this.form.defaultValue);
+          if (this.form.precision < defaultValueDecimalPlaces) {
+            this.$message({
+              type: 'warning',
+              message: '精度不能小于默认值的小数位数'
+            });
+            return false;
+          }
+        }
+
+        if (this.form.min !== undefined) {
+          const minDecimalPlaces = getDecimalPlaces(this.form.min);
+          if (this.form.precision < minDecimalPlaces) {
+            this.$message({
+              type: 'warning',
+              message: '精度不能小于最小值的小数位数'
+            });
+            return false;
+          }
+        }
+
+        if (this.form.max !== undefined) {
+          const maxDecimalPlaces = getDecimalPlaces(this.form.max);
+          if (this.form.precision < maxDecimalPlaces) {
+            this.$message({
+              type: 'warning',
+              message: '精度不能小于最大值的小数位数'
+            });
+            return false;
+          }
         }
       }
       return true;

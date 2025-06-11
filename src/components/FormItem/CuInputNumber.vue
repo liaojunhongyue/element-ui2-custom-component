@@ -1,7 +1,6 @@
 <template>
   <el-input-number
     v-model="value"
-    @change="inputVal()"
     :disabled="itemSettings.isDisabled"
     :min="itemSettings.min"
     :max="itemSettings.max"
@@ -25,12 +24,29 @@ export default {
       attrs: {}
     }
   },
+  watch: {
+    itemValue(newVal) {
+      this.value = newVal;
+    },
+    value() {
+      this.emitVal();
+    },
+  },
   mounted() {
-    // 设置默认值
-    this.value = this.itemValue !== undefined ? this.itemValue : this.itemSettings.defaultValue;
+    // 初始值处理
+    this.value = this.itemValue !== undefined ? this.itemValue : this.getDefaultValue();
+    this.emitVal();
   },
   methods: {
-    inputVal() {
+    // 获取默认值
+    getDefaultValue() {
+      if (this.itemSettings.defaultValue) {
+        return this.itemSettings.defaultValue;
+      }
+      return '';
+    },
+    // 向Form派发value值
+    emitVal() {
       this.$emit('get-value', this.itemSettings.enName, this.value);
     }
   }
