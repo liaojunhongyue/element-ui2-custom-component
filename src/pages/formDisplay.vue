@@ -88,6 +88,18 @@ export default {
     // 表单-提交
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
+        // 单独处理固定时间(范围)的必填验证
+        const timePickerRequiredList = this.formSettings.filter((item) => item.type === 'TimePicker' && item.timePickerType === 2 && item.isRange && item.isRequired);
+        timePickerRequiredList.forEach((item) => {
+          const targetValue = this.form[item.enName];
+          if (Array.isArray(targetValue) && (!targetValue[0] || !targetValue[1])) {
+            const targetField = this.$refs[formName].fields.find(field => field.prop === item.enName);
+            if (targetField) {
+              targetField.validateState = 'error';
+              targetField.validateMessage = '请输入' + item.name;
+            }
+          }
+        })
         if (valid) {
           alert('提交');
         } else {
