@@ -24,13 +24,13 @@ export default {
   data() {
     return {
       form: {
-        isDefaultActive: 0,
+        isDefaultActive: false,
         activeValue: '',
         inactiveValue: ''
       },
       flagOptions: [
-        { value: 1, label: '是' },
-        { value: 0, label: '否' }
+        { value: true, label: '是' },
+        { value: false, label: '否' }
       ],
     }
   },

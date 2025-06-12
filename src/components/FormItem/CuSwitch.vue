@@ -1,7 +1,6 @@
 <template>
   <el-switch
     v-model="value"
-    @change="inputVal()"
     :disabled="itemSettings.isDisabled"
     :active-text="itemSettings.activeValue"
     :inactive-text="itemSettings.inactiveValue"
@@ -19,12 +18,22 @@ export default {
       attrs: {}
     }
   },
+  watch: {
+    itemValue(newVal) {
+      this.value = newVal;
+    },
+    value() {
+      this.emitVal();
+    },
+  },
   mounted() {
-    // 设置默认值
+    // 设置初始值
     this.value = this.itemValue !== undefined ? this.itemValue : this.itemSettings.isDefaultActive;
+    this.emitVal();
   },
   methods: {
-    inputVal() {
+    // 向Form派发value值
+    emitVal() {
       this.$emit('get-value', this.itemSettings.enName, this.value);
     }
   }
