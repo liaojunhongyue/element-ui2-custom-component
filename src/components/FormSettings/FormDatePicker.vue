@@ -16,8 +16,8 @@
         :type="form.datePickerType"
         :value-format="typeFormatMap[form.datePickerType]"
         :format="form.datePickerType === 'week' ? 'yyyy 第 WW 周' : undefined"
-        start-placeholder="开始"
-        end-placeholder="结束"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
         placeholder="选择默认值"
       ></el-date-picker>
     </el-form-item>
@@ -74,30 +74,44 @@
         </el-select>
       </el-form-item>
     </template>
-    <el-form-item class="double-line-item" label="自定义头部图标：">
-      <el-select v-model="form.prefixIcon" placeholder="请选择自定义头部图标">
-        <el-option
-          v-for="item in iconOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-          <i :class="item.value"></i>
-        </el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item class="double-line-item" label="自定义清空图标：">
-      <el-select v-model="form.clearIcon" placeholder="请选择自定义清空">
-        <el-option
-          v-for="item in iconOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-          <i :class="item.value"></i>
-        </el-option>
-      </el-select>
-    </el-form-item>
+    <el-row :gutter="20">
+      <el-col :span="16">
+        <el-form-item class="double-line-item" label="自定义头部图标：">
+          <el-select v-model="form.prefixIcon" clearable placeholder="请选择自定义头部图标">
+            <el-option
+              v-for="item in iconOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+              <i :class="item.value"></i>
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8" v-show="form.prefixIcon" class="icon-choose-display">
+        <span>所选图标：<i :class="form.prefixIcon"></i></span>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="16">
+        <el-form-item class="double-line-item" label="自定义清空图标：">
+          <el-select v-model="form.clearIcon" clearable placeholder="请选择自定义清空">
+            <el-option
+              v-for="item in iconOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+              <i :class="item.value"></i>
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8" v-show="form.clearIcon" class="icon-choose-display">
+        <span>所选图标：<i :class="form.clearIcon"></i></span>
+      </el-col>
+    </el-row>
   </el-form>
 </template>
 <script>
@@ -177,3 +191,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.icon-choose-display {
+  line-height: 40px;
+}
+</style>

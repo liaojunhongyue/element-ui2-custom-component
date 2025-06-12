@@ -2,7 +2,6 @@
   <div>
     <el-date-picker
       v-model="value"
-      @change="inputVal()"
       :type="itemSettings.datePickerType"
       :disabled="itemSettings.isDisabled"
       :editable="itemSettings.isEditable"
@@ -31,19 +30,20 @@ export default {
       attrs: {}
     }
   },
+  watch: {
+    itemValue(newVal) {
+      this.value = newVal;
+    },
+    value() {
+      this.emitVal();
+    },
+  },
   mounted() {
-    // 设置默认值
-    if (this.itemValue !== undefined) {
-      this.value = this.itemValue;
-    } else {
-      this.value = this.getDefaultValue();
-      this.$emit('get-value', this.itemSettings.enName, this.value);
-    }
+    // 初始值处理
+    this.value = this.itemValue !== undefined ? this.itemValue : this.getDefaultValue();
+    this.emitVal();
   },
   methods: {
-    inputVal() {
-      this.$emit('get-value', this.itemSettings.enName, this.value);
-    },
     // 获取默认值
     getDefaultValue() {
       if (this.itemSettings.defaultValue) {
@@ -73,6 +73,10 @@ export default {
         default:
           return 'yyyy-MM-dd';
       }
+    },
+    // 向Form派发value值
+    emitVal() {
+      this.$emit('get-value', this.itemSettings.enName, this.value);
     }
   }
 }
