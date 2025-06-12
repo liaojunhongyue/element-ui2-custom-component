@@ -26,11 +26,12 @@ import CuDatePicker from './components/FormItem/CuDatePicker.vue';
 import CuDateTimePicker from './components/FormItem/CuDateTimePicker.vue';
 // 自定义组件
 import CustomRate from './components/FormCustom/CustomRate.vue';
+import CustomColorPicker from './components/FormCustom/CustomColorPicker.vue';
 // 注册表单组件
 const formItemArr = [CuInput, CuTextarea, CuInputNumber, CuRadio, CuCheckbox, CuSelect, 
   CuSwitch, CuTimePicker, CuDatePicker, CuDateTimePicker];
 // 注册自定义组件
-const customArr = [CustomRate]
+const customArr = [CustomRate, CustomColorPicker]
 formItemArr.concat(...customArr).map((item) => {
   Vue.component(item.name, item);
 })
