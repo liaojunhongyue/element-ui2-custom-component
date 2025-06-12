@@ -278,7 +278,7 @@
             placeholder="开始时间">
           </el-time-select>
         </el-col>
-        <el-col :span="2" class="text-align-center">至</el-col>
+        <el-col :span="2" class="text-align-center">-</el-col>
         <el-col :span="11">
           <el-time-select
             v-model="form.rangeDefaultValueEnd"
@@ -320,11 +320,11 @@
     </el-form-item>
     <!-- 范围选择 -->
     <template v-if="form.isRange">
-      <el-form-item class="double-line-item" label="开始日期的占位内容：">
-        <el-input v-model="form.startPlaceholder" placeholder="请输入开始日期的占位内容"></el-input>
+      <el-form-item class="double-line-item" label="开始时间的占位内容：">
+        <el-input v-model="form.startPlaceholder" placeholder="请输入开始时间的占位内容"></el-input>
       </el-form-item>
-      <el-form-item class="double-line-item" label="结束日期的占位内容：">
-        <el-input v-model="form.endPlaceholder" placeholder="请输入结束日期的占位内容"></el-input>
+      <el-form-item class="double-line-item" label="结束时间的占位内容：">
+        <el-input v-model="form.endPlaceholder" placeholder="请输入结束时间的占位内容"></el-input>
       </el-form-item>
       <el-form-item v-if="form.timePickerType === 1" class="double-line-item" label="选择范围时的分隔符：">
         <el-input v-model="form.rangeSeparator" placeholder="请输入选择范围时的分隔符"></el-input>
@@ -340,30 +340,44 @@
         </el-option>
       </el-select>
     </el-form-item>
-    <el-form-item class="double-line-item" label="自定义头部图标：">
-      <el-select v-model="form.prefixIcon" clearable placeholder="请选择自定义头部图标">
-        <el-option
-          v-for="item in iconOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-          <i :class="item.value"></i>
-        </el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item class="double-line-item" label="自定义清空图标：">
-      <el-select v-model="form.clearIcon" clearable placeholder="请选择自定义清空">
-        <el-option
-          v-for="item in iconOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-          <i :class="item.value"></i>
-        </el-option>
-      </el-select>
-    </el-form-item>
+    <el-row :gutter="20">
+      <el-col :span="16">
+        <el-form-item class="double-line-item" label="自定义头部图标：">
+          <el-select v-model="form.prefixIcon" clearable placeholder="请选择自定义头部图标">
+            <el-option
+              v-for="item in iconOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+              <i :class="item.value"></i>
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8" v-show="form.prefixIcon" class="icon-choose-display">
+        <span>所选图标：<i :class="form.prefixIcon"></i></span>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="16">
+        <el-form-item class="double-line-item" label="自定义清空图标：">
+          <el-select v-model="form.clearIcon" clearable placeholder="请选择自定义清空">
+            <el-option
+              v-for="item in iconOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+              <i :class="item.value"></i>
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8" v-show="form.clearIcon" class="icon-choose-display">
+        <span>所选图标：<i :class="form.clearIcon"></i></span>
+      </el-col>
+    </el-row>
   </el-form>
 </template>
 <script>
@@ -436,8 +450,6 @@ export default {
       }
     },
     validateForm() {
-      let flag = true;
-      let changeTime = 0;
       if (this.form.timePickerType === 1 && !this.form.isRange) {
         // 任意时间点
         if (this.form.selectableRange && this.form.selectableRange.length === 2) {
@@ -450,11 +462,8 @@ export default {
                 this.form.defaultValue;
               
               if (defaultTime < startTime || defaultTime > endTime) {
-                if (changeTime === 0) {
-                  changeTime += 1;
-                  this.$message.warning('默认时间必须在可选时间范围内');
-                }
-                flag = false;
+                this.$message.warning('默认时间必须在可选时间范围内');
+                return false;
               }
             }
           }
@@ -468,11 +477,12 @@ export default {
             this.form.defaultValue;
           
           if (defaultTime <= this.form.start || defaultTime >= this.form.end) {
-            if (changeTime === 0) {
-              changeTime += 1;
-              this.$message.warning('默认时间必须在开始时间和结束时间范围内（不能等于开始时间或结束时间）');
-            }
-            flag = false;
+            this.$message({
+              type: 'warning',
+              message: '默认时间必须在开始时间和结束时间范围内（不能等于开始时间或结束时间）',
+              duration: 5000
+            });
+            return false;
           }
         }
         
@@ -483,11 +493,12 @@ export default {
             this.form.defaultValue;
           
           if (defaultTime <= this.form.minTime || defaultTime >= this.form.maxTime) {
-            if (changeTime === 0) {
-              changeTime += 1;
-              this.$message.warning('默认时间必须在最小时间和最大时间范围内（不能等于最小时间或最大时间）');
-            }
-            flag = false;
+            this.$message({
+              type: 'warning',
+              message: '默认时间必须在最小时间和最大时间范围内（不能等于最小时间或最大时间）',
+              duration: 5000
+            });
+            return false;
           }
         }
       } else if (this.form.timePickerType === 2 && this.form.isRange) {
@@ -496,21 +507,23 @@ export default {
         if (this.form.startRangeStart && this.form.startRangeEnd && this.form.rangeDefaultValueStart) {
           // 验证是否在开始时间和结束时间范围内
           if (this.form.rangeDefaultValueStart <= this.form.startRangeStart || this.form.rangeDefaultValueStart >= this.form.startRangeEnd) {
-            if (changeTime === 0) {
-              changeTime += 1;
-              this.$message.warning('默认值的开始时间必须在固定时间范围选项配置的开始时间和结束时间范围内（不能等于开始时间或结束时间）');
-            }
-            flag = false;
+            this.$message({
+              type: 'warning',
+              message: '默认值的开始时间必须在固定时间范围选项配置的开始时间和结束时间范围内（不能等于开始时间或结束时间）',
+              duration: 5000
+            });
+            return false;
           }
           
           // 验证是否在最小时间和最大时间范围内
           if (this.form.startRangeMinTime && this.form.startRangeMaxTime) {
             if (this.form.rangeDefaultValueStart <= this.form.startRangeMinTime || this.form.rangeDefaultValueStart >= this.form.startRangeMaxTime) {
-              if (changeTime === 0) {
-                changeTime += 1;
-                this.$message.warning('默认值的开始时间必须在固定时间范围选项配置的最小时间和最大时间范围内（不能等于最小时间或最大时间）');
-              }
-              flag = false;
+              this.$message({
+                type: 'warning',
+                message: '默认值的开始时间必须在固定时间范围选项配置的最小时间和最大时间范围内（不能等于最小时间或最大时间）',
+                duration: 5000
+              });
+              return false;
             }
           }
         }
@@ -519,21 +532,23 @@ export default {
         if (this.form.endRangeStart && this.form.endRangeEnd && this.form.rangeDefaultValueEnd) {
           // 验证是否在开始时间和结束时间范围内
           if (this.form.rangeDefaultValueEnd <= this.form.endRangeStart || this.form.rangeDefaultValueEnd >= this.form.endRangeEnd) {
-            if (changeTime === 0) {
-              changeTime += 1;
-              this.$message.warning('默认值的结束时间必须在固定时间范围选项配置的开始时间和结束时间范围内（不能等于开始时间或结束时间）');
-            }
-            flag = false;
+            this.$message({
+              type: 'warning',
+              message: '默认值的结束时间必须在固定时间范围选项配置的开始时间和结束时间范围内（不能等于开始时间或结束时间）',
+              duration: 5000
+            });
+            return false;
           }
           
           // 验证是否在最小时间和最大时间范围内
           if (this.form.endRangeMinTime && this.form.endRangeMaxTime) {
             if (this.form.rangeDefaultValueEnd <= this.form.endRangeMinTime || this.form.rangeDefaultValueEnd >= this.form.endRangeMaxTime) {
-              if (changeTime === 0) {
-                changeTime += 1;
-                this.$message.warning('默认值的结束时间必须在固定时间范围选项配置的最小时间和最大时间范围内（不能等于最小时间或最大时间）');
-              }
-              flag = false;
+              this.$message({
+                type: 'warning',
+                message: '默认值的结束时间必须在固定时间范围选项配置的最小时间和最大时间范围内（不能等于最小时间或最大时间）',
+                duration: 5000
+              });
+              return false;
             }
           }
         }
@@ -541,15 +556,12 @@ export default {
         // 验证开始时间是否小于等于结束时间
         if (this.form.rangeDefaultValueStart && this.form.rangeDefaultValueEnd) {
           if (this.form.rangeDefaultValueStart > this.form.rangeDefaultValueEnd) {
-            if (changeTime === 0) {
-              changeTime += 1;
-              this.$message.warning('默认值的开始时间必须小于或等于结束时间');
-            }
-            flag = false;
+            this.$message.warning('默认值的开始时间必须小于或等于结束时间');
+            return false;
           }
         }
       }
-      return flag;
+      return true;
     }
   }
 }
@@ -560,5 +572,8 @@ export default {
 }
 .box-card {
   margin-bottom: 20px;
+}
+.icon-choose-display {
+  line-height: 40px;
 }
 </style>

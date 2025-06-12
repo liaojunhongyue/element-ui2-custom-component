@@ -3,7 +3,6 @@
     <el-time-picker
       v-if="itemSettings.timePickerType === 1"
       v-model="value"
-      @change="inputVal()"
       :disabled="itemSettings.isDisabled"
       :is-range="itemSettings.isRange"
       :editable="itemSettings.isEditable"
@@ -22,7 +21,6 @@
     <el-time-select
       v-if="itemSettings.timePickerType === 2 && !itemSettings.isRange"
       v-model="value"
-      @change="inputVal()"
       :disabled="itemSettings.isDisabled"
       :is-range="itemSettings.isRange"
       :editable="itemSettings.isEditable"
@@ -43,7 +41,6 @@
         <el-col :span="11">
           <el-time-select
             v-model="startValue"
-            @change="inputVal()"
             :disabled="itemSettings.isDisabled"
             :is-range="itemSettings.isRange"
             :editable="itemSettings.isEditable"
@@ -58,11 +55,10 @@
             v-bind="attrs"
           />
         </el-col>
-        <el-col :span="2" class="text-align-center">至</el-col>
+        <el-col :span="2" class="text-align-center">-</el-col>
         <el-col :span="11">
           <el-time-select
             v-model="endValue"
-            @change="inputVal()"
             :disabled="itemSettings.isDisabled"
             :is-range="itemSettings.isRange"
             :editable="itemSettings.isEditable"
@@ -154,14 +150,23 @@ export default {
       };
     }
   },
+  watch: {
+    itemValue(newVal) {
+      this.value = newVal;
+    },
+    value: {
+      handler() {
+        this.emitVal();
+      },
+      deep: true
+    },
+  },
   mounted() {
-    // 设置默认值
+    // 初始值处理
     this.value = this.itemValue !== undefined ? this.itemValue : this.getDefaultValue();
+    this.emitVal();
   },
   methods: {
-    inputVal() {
-      this.$emit('get-value', this.itemSettings.enName, this.value);
-    },
     // 获取默认值
     getDefaultValue() {
       let defaultValue;
@@ -192,6 +197,10 @@ export default {
           return defaultValue;
         }
       }
+    },
+    // 向Form派发value值
+    emitVal() {
+      this.$emit('get-value', this.itemSettings.enName, this.value);
     }
   }
 }
