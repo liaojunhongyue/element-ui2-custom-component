@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="tips" v-if="(formSettings || []).length === 0">请先在表单配置页面进行配置，然后即可展示配置的表单。</section>
-    <el-form ref="form" :model="form" :rules="rules" label-width="200px">
+    <el-form ref="form" v-else :model="form" :rules="rules" label-width="200px">
       <el-form-item
         v-for="item in formSettings" 
         :key="item.enName"
