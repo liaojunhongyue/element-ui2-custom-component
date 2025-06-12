@@ -13,7 +13,7 @@ import router from './router/index.js';
 // store 数据管理
 import store from './store/index.js'
 
-// 全局组件
+// 表单组件
 import CuInput from './components/FormItem/CuInput.vue';
 import CuTextarea from './components/FormItem/CuTextarea.vue';
 import CuInputNumber from './components/FormItem/CuInputNumber.vue';
@@ -24,11 +24,14 @@ import CuSwitch from './components/FormItem/CuSwitch.vue';
 import CuTimePicker from './components/FormItem/CuTimePicker.vue';
 import CuDatePicker from './components/FormItem/CuDatePicker.vue';
 import CuDateTimePicker from './components/FormItem/CuDateTimePicker.vue';
-import CuCustom from './components/FormItem/CuCustom.vue';
-// 注册全局组件
-const componentArr = [CuInput, CuTextarea, CuInputNumber, CuRadio, CuCheckbox, CuSelect, 
-  CuSwitch, CuTimePicker, CuDatePicker, CuDateTimePicker, CuCustom];
-componentArr.map((item) => {
+// 自定义组件
+import CustomRate from './components/FormCustom/CustomRate.vue';
+// 注册表单组件
+const formItemArr = [CuInput, CuTextarea, CuInputNumber, CuRadio, CuCheckbox, CuSelect, 
+  CuSwitch, CuTimePicker, CuDatePicker, CuDateTimePicker];
+// 注册自定义组件
+const customArr = [CustomRate]
+formItemArr.concat(...customArr).map((item) => {
   Vue.component(item.name, item);
 })
 
