@@ -193,7 +193,6 @@ export default {
         }
         if (this.itemSettings.defaultValue) {
           defaultValue = this.itemSettings.timePickerType === 1 ? new Date(`2000 ${this.itemSettings.defaultValue}`) : this.itemSettings.defaultValue;
-          console.log('defaultValue=', defaultValue)
           return defaultValue;
         }
       }

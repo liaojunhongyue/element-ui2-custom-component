@@ -76,9 +76,8 @@ export default {
           })
       }
     })
-    console.log(this.rules)
     this.$nextTick(() => {
-      this.$refs.form.clearValidate();
+      this.$refs.form && this.$refs.form.clearValidate();
     })
   },
   methods: {

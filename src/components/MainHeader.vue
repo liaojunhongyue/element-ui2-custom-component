@@ -10,9 +10,6 @@ export default {
   computed: {
     ...mapState(['currentMenu'])
   },
-  mounted() {
-    console.log(this.currentMenu)
-  }
 }
 </script>
 <style scoped>

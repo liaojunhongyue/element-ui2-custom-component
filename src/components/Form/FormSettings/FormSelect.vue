@@ -159,7 +159,6 @@ export default {
   },
   methods: {
     getValues() {
-      console.log(this.form)
       return this.form;
     },
     validateGroupName(groupId, groupName) {

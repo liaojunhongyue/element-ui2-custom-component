@@ -158,7 +158,6 @@ export default {
         }
         form.id = this.tableMaxId;
         // 将数据放入table中
-        console.log(form)
         this.tableData.push(form);
       } else if (this.dialogType === 'edit') {
         // 编辑

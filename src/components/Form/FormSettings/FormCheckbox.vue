@@ -47,7 +47,6 @@ export default {
   },
   methods: {
     getValues() {
-      console.log(this.form)
       return this.form;
     },
     validateError(itemObj, targetField, errorTips) {
