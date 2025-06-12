@@ -1,7 +1,7 @@
 <template>
   <el-form ref="formItem" :model="form" label-width="120px">
     <el-form-item label="选择器形式：">
-      <el-select v-model="form.dateTimePickerType" placeholder="请选择选择器形式" :clearable="false" @change="changeDateTimePickerType">
+      <el-select v-model="form.datePickerType" placeholder="请选择选择器形式" :clearable="false" @change="changeDatePickerType">
         <el-option
           v-for="item in typeList"
           :key="item.value"
@@ -13,9 +13,9 @@
     <el-form-item label="默认值：">
       <el-date-picker
         v-model="form.defaultValue"
-        :type="form.dateTimePickerType"
-        :value-format="typeFormatMap[form.dateTimePickerType]"
-        :format="form.dateTimePickerType === 'week' ? 'yyyy 第 WW 周' : undefined"
+        :type="form.datePickerType"
+        :value-format="typeFormatMap[form.datePickerType]"
+        :format="form.datePickerType === 'week' ? 'yyyy 第 WW 周' : undefined"
         start-placeholder="开始日期"
         end-placeholder="结束日期"
         placeholder="选择默认值"
@@ -41,10 +41,10 @@
         </el-option>
       </el-select>
     </el-form-item>
-    <el-form-item v-if="rangeTypeList.indexOf(form.dateTimePickerType) === -1" label="占位文本：">
+    <el-form-item v-if="rangeTypeList.indexOf(form.datePickerType) === -1" label="占位文本：">
       <el-input v-model="form.placeholder" placeholder="请输入占位文本"></el-input>
     </el-form-item>
-    <template v-if="rangeTypeList.indexOf(form.dateTimePickerType) !== -1">
+    <template v-if="rangeTypeList.indexOf(form.datePickerType) !== -1">
       <el-form-item class="double-line-item" label="开始日期的占位内容：">
         <el-input v-model="form.startPlaceholder" placeholder="请输入开始日期的占位内容"></el-input>
       </el-form-item>
@@ -115,16 +115,15 @@
   </el-form>
 </template>
 <script>
-import { Icon_Options } from '../../constants/index';
+import { Icon_Options } from '../../../constants/index'
 
 export default {
   props: ['formType', 'formData'],
   data() {
     return {
       form: {
-        dateTimePickerType: 'date',
+        datePickerType: 'date',
         defaultValue: '',
-        defaultTime: '',
         isEditable: true,
         isClearable: true,
         placeholder: '',
@@ -139,21 +138,29 @@ export default {
         { value: 'year', label: '年份 year' },
         { value: 'month', label: '月份 month' },
         { value: 'date', label: '日期 date' },
+        { value: 'years', label: '多个年份 years' },
+        { value: 'months', label: '多个月份 months' },
+        { value: 'dates', label: '多个日期 dates' },
         { value: 'week', label: '周 week' },
         { value: 'datetime', label: '日期时间 datetime' },
         { value: 'datetimerange', label: '日期时间范围 datetimerange' },
         { value: 'daterange', label: '日期范围 daterange' },
+        { value: 'monthrange', label: '月份范围 monthrange' }
       ],
       typeFormatMap: {
         'year': 'yyyy',
         'month': 'yyyy-MM',
         'date': 'yyyy-MM-dd',
+        'years': 'yyyy',
+        'months': 'yyyy-MM',
+        'dates': 'yyyy-MM-dd',
         'week': 'yyyy-MM-dd',
         'datetime': 'yyyy-MM-dd HH:mm:ss',
         'datetimerange': 'yyyy-MM-dd HH:mm:ss',
-        'daterange': 'yyyy-MM-dd'
+        'daterange': 'yyyy-MM-dd',
+        'monthrange': 'yyyy-MM'
       },
-      rangeTypeList: ['datetimerange', 'daterange'],
+      rangeTypeList: ['datetimerange', 'daterange', 'monthrange'],
       flagOptions: [
         { value: true, label: '是' },
         { value: false, label: '否' }
@@ -178,7 +185,7 @@ export default {
       return this.form;
     },
     // 修改选择器形式
-    changeDateTimePickerType() {
+    changeDatePickerType() {
       this.form.defaultValue = '';
     }
   }

@@ -79,8 +79,8 @@
 </template>
 <script>
 import { mapState } from 'vuex';
-import { Form_Type_Options } from '../constants/index';
-import FormDialog from '../components/FormSettings/FormDialog.vue';
+import { Form_Type_Options } from '../../constants/index';
+import FormDialog from '../../components/Form/FormSettings/FormDialog.vue';
 
 export default {
   computed: {

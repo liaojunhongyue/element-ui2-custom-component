@@ -101,7 +101,7 @@
   </el-form>
 </template>
 <script>
-import { Icon_Options } from '../../constants/index';
+import { Icon_Options } from '../../../constants/index';
 
 export default {
   props: ['formType', 'formData'],

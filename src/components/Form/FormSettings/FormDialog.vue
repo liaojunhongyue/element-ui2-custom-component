@@ -64,7 +64,7 @@
   </el-form>
 </template>
 <script>
-import { Form_Type_Options } from '../../constants/index';
+import { Form_Type_Options } from '../../../constants/index';
 import FormInput from './FormInput.vue';
 import FormTextarea from './FormTextarea.vue';
 import FormInputNumber from './FormInputNumber.vue';
