@@ -1,6 +1,12 @@
 <template>
 	<div>
-		<p>鼠标移动到表格的行上，按住可进行拖拽。</p>
+		<el-alert
+			title="鼠标移动到表格的行上，按住可进行拖拽。"
+			type="info"
+			:closable="false"
+			style="margin-bottom: 20px;"
+		>
+		</el-alert>
 		<el-table
 			ref="table"
 			:data="tableData"
