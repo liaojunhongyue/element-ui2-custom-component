@@ -10,6 +10,7 @@
 		<el-table
 			ref="table"
 			:data="tableData"
+			row-key="id"
 			:border="true"
 			class="basic-table"
 			style="width: 100%">
@@ -38,18 +39,22 @@ export default {
 	data() {
 		return {
 			tableData: [{
+				id: 1,
 				date: '2016-05-01',
 				name: '王小虎',
 				address: '上海市普陀区金沙江路 1518 弄'
 			}, {
+				id: 2,
 				date: '2016-05-02',
 				name: '张三',
 				address: '上海市普陀区金沙江路 1517 弄'
 			}, {
+				id: 3,
 				date: '2016-05-03',
 				name: '李四',
 				address: '上海市普陀区金沙江路 1519 弄'
 			}, {
+				id: 4,
 				date: '2016-05-04',
 				name: '王五',
 				address: '上海市普陀区金沙江路 1516 弄'
@@ -69,9 +74,11 @@ export default {
           // 更新数据顺序
           const movedItem = this.tableData.splice(oldIndex, 1)[0];
           this.tableData.splice(newIndex, 0, movedItem);
+					// 打印最新的数据
+					console.log('最新的tableData数据：', this.tableData);
         }
       });
-    }
+    },
   }
 }
 </script>
