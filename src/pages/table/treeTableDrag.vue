@@ -22,6 +22,7 @@
 			:border="true"
 			default-expand-all
 			:tree-props="{children: 'children', hasChildren: 'hasChildren'}"
+      @expand-change="handleExpandChange"
 		>
 			<el-table-column
 				prop="id"
@@ -120,7 +121,7 @@ export default {
       rowKey: 'id',
       flattenTableData: [],
       oldTableRows: [],
-      oldTableExpandedRows: []
+      foldRows: []
 		}
 	},
 	mounted() {
@@ -230,6 +231,15 @@ export default {
       }
       return childNodes; // 未找到
     },
+    // 切换行的展开/收起状态
+    handleExpandChange(row, isExpend) {
+      if (isExpend) {
+        const rowIndex = this.foldRows.indexOf(row);
+        this.foldRows.splice(rowIndex, 1);
+      } else if (!isExpend && this.foldRows.indexOf(row) === -1) {
+        this.foldRows.push(row);
+      }
+    },
 		// 设置拖拽
 		setRowDrag() {
 			const tableEl = this.$refs.table.$el.querySelector('.el-table__body-wrapper tbody');
@@ -288,9 +298,12 @@ export default {
             // 将扁平化的数据重新生成树形结构
             this.tableData = this.buildTree(this.flattenTableData);
 
-            // 将key恢复原始值，恢复原先隐藏的数据，重新计算布局
+            // 将key恢复原始值，将原先折叠的数据恢复成折叠状态，重新计算布局
             this.$nextTick(() => {
               this.rowKey = 'id';
+              this.foldRows.forEach((row) => {
+                this.$refs.table.toggleRowExpansion(row, false);
+              })
               this.$refs.table.doLayout();
             });
 
