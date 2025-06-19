@@ -1,11 +1,18 @@
 <template>
 	<div>
 		<el-alert
-			title="鼠标移动到表格的行上，按住可进行拖拽。"
 			type="info"
 			:closable="false"
 			style="margin-bottom: 20px;"
 		>
+			<template #title>
+        <ul>
+					<li>支持对表格的整行进行拖拽排序。</li>
+          <li>拖拽方式为：鼠标移动到表格的行上，按住即可进行拖拽。</li>
+					<li>拖拽完成后，数据顺序会自动更新。</li>
+					<li>适用于无嵌套、无展开行的简单表格。</li>
+				</ul>
+      </template>
 		</el-alert>
 		<el-table
 			ref="table"
