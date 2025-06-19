@@ -1,6 +1,7 @@
 <template>
   <el-menu
     :default-active="activeIndex"
+    :default-openeds="openeds"
     :collapse="false"
     style="height: 100%;"
     background-color="#545c64"
@@ -68,6 +69,11 @@ export default {
       ],
       currentRoutePath: '/',
       activeIndex: ''
+    }
+  },
+  computed: {
+    openeds() {
+      return this.menuList.map(menu => menu.id)
     }
   },
   watch: {
