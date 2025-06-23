@@ -50,23 +50,6 @@ export default {
           path: '/'
         },
         {
-          id: '2',
-          name: '表单管理',
-          icon: 'el-icon-document',
-          children: [
-            {
-              id: '2-1',
-              name: '表单配置',
-              path: '/form/settings',
-            },
-            {
-              id: '2-2',
-              name: '表单展示',
-              path: '/form/display',
-            }
-          ]
-        },
-        {
           id: '3',
           name: '表格拖拽',
           icon: 'el-icon-s-grid',
