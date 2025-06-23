@@ -32,6 +32,21 @@ const router = new VueRouter({
       name: 'formDisplay',
       component: () => import('../pages/form/formDisplay.vue')
     },
+    {
+      path: '/table/drag/basic',
+      name: 'basicTableDrag',
+      component: () => import('../pages/table/basicTableDrag.vue')
+    },
+    {
+      path: '/table/drag/deployable',
+      name: 'deployableTableDrag',
+      component: () => import('../pages/table/deployableTableDrag.vue')
+    },
+    {
+      path: '/table/drag/treeTableDrag',
+      name: 'treeTableDrag',
+      component: () => import('../pages/table/treeTableDrag.vue')
+    },
   ]
 })
 

@@ -66,6 +66,28 @@ export default {
             }
           ]
         },
+        {
+          id: '3',
+          name: '表格拖拽',
+          icon: 'el-icon-s-grid',
+          children: [
+            {
+              id: '3-1',
+              name: '普通表格拖拽',
+              path: '/table/drag/basic',
+            },
+            {
+              id: '3-2',
+              name: '可展开表格拖拽',
+              path: '/table/drag/deployable',
+            },
+            {
+              id: '3-3',
+              name: '树形表格拖拽',
+              path: '/table/drag/treeTableDrag',
+            }
+          ]
+        },
       ],
       currentRoutePath: '/',
       activeIndex: ''
