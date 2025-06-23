@@ -1,6 +1,8 @@
 <template>
   <div>
-    <p>{{ currentMenu && currentMenu.name }}</p>
+    <el-breadcrumb separator="/" style="line-height: 60px;">
+      <el-breadcrumb-item>{{ currentMenu && currentMenu.name }}</el-breadcrumb-item>
+    </el-breadcrumb>
   </div>
 </template>
 <script>
