@@ -45,7 +45,7 @@ export default {
       menuList: [
         {
           id: '1',
-          name: '整体介绍',
+          name: '项目介绍',
           icon: 'el-icon-s-home',
           path: '/'
         },
