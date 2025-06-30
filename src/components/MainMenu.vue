@@ -88,6 +88,18 @@ export default {
             }
           ]
         },
+        {
+          id: '4',
+          name: '对话框',
+          icon: 'el-icon-chat-square',
+          children: [
+            {
+              id: '4-1',
+              name: '可拖拽对话框',
+              path: '/dialog/drag',
+            }
+          ]
+        },
       ],
       currentRoutePath: '/',
       activeIndex: ''

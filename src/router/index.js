@@ -47,6 +47,11 @@ const router = new VueRouter({
       name: 'treeTableDrag',
       component: () => import('../pages/table/treeTableDrag.vue')
     },
+    {
+      path: '/dialog/drag',
+      name: 'dialogDrag',
+      component: () => import('../pages/dialog/dialogDrag.vue')
+    },
   ]
 })
 
