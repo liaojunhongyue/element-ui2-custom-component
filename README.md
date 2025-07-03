@@ -69,6 +69,19 @@ export default {
 </script>
 ```
 
+#### 3. CSS style 处理
+需要在使用支持拖拽的 Dialog 组件文件中添加样式处理：
+
+```css
+/* 由于dialog每次打开时会有15vh的marginTop，所以将已经拖拽过的dialog的marginTop设置为0，防止再次打开时位置发生偏移 */
+.el-dialog.already-drag {
+  margin-top: 0 !important;
+}
+```
+
+#### 4. 指令文件
+指令的具体实现在`src/directives/dragDialog.js`。
+
 ### 实现原理
 
 该功能通过 Vue 自定义指令实现，主要包含以下核心逻辑：
