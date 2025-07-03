@@ -84,4 +84,18 @@ div.el-date-editor--datetimerange.el-input__inner {
 .double-line-item .el-form-item__label {
   line-height: 22px;
 }
+/* 全局拖拽指令样式 */
+.drag-icon {
+  position: absolute;
+  right: 35px;
+  color: #909399;
+  transition: color 0.3s;
+}
+.drag-icon:hover {
+  color: #409EFF;
+}
+.is-dragging .el-dialog {
+  cursor: move;
+  user-select: none;
+}
 </style>

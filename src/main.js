@@ -36,6 +36,10 @@ formItemArr.concat(...customArr).map((item) => {
   Vue.component(item.name, item);
 })
 
+// 全局 Dialog 拖拽指令
+import dragDialog from './directives/dragDialog';
+Vue.directive('drag-dialog', dragDialog);
+
 Vue.config.productionTip = false
 
 new Vue({
