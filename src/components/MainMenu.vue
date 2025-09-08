@@ -100,6 +100,18 @@ export default {
             }
           ]
         },
+        {
+          id: '5',
+          name: '虚拟滚动',
+          icon: 'el-icon-film',
+          children: [
+            {
+              id: '5-1',
+              name: '手动实现虚拟滚动',
+              path: '/scroll/virtualScroll',
+            }
+          ]
+        },
       ],
       currentRoutePath: '/',
       activeIndex: ''

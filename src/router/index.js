@@ -52,6 +52,11 @@ const router = new VueRouter({
       name: 'dialogDrag',
       component: () => import('../pages/dialog/dialogDrag.vue')
     },
+    {
+      path: '/scroll/virtualScroll',
+      name: 'scrollVirtualScroll',
+      component: () => import('../pages/scroll/virtualScroll.vue')
+    },
   ]
 })
 
