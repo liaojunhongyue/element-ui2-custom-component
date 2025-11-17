@@ -189,31 +189,31 @@ export default {
 		tableRowClassName({row}) {
 			return `parent-id-${row.parentId} item-id-${row.id}`;
 		},
-    // 获取扁平数据下目标节点的所有子节点
-    findAllChildNodes(nodeData, targetItemId) {
-      const result = [];
-      // 1. 验证目标节点是否存在
-      const targetNode = Object.values(nodeData).find(node => 
-        node._prevClass.includes(`item-id-${targetItemId}`)
-      );
-      if (!targetNode) return [];
-      // 2. 递归查找所有子节点
-      function collectChildren(currentItemId) {
-        Object.values(nodeData).forEach(node => {
-          const nodeParentMatch = node._prevClass.match(/parent-id-(\S+)/);
-          if (nodeParentMatch && nodeParentMatch[1] === currentItemId) {
-            const nodeIdMatch = node._prevClass.match(/item-id-(\S+)/);
-            if (nodeIdMatch) {
-              const nodeId = nodeIdMatch[1];
-              result.push(node);
-              collectChildren(nodeId); // 递归查找子节点的子节点
-            }
-          }
-        });
-      }
-      collectChildren(targetItemId);
-      return result;
-    },
+		// 获取扁平数据下目标节点的所有子节点
+		findAllChildNodes(nodeData, targetItemId) {
+			const result = [];
+			// 1. 验证目标节点是否存在
+			const targetNode = Object.values(nodeData).find(node => 
+				node._prevClass.includes(`item-id-${targetItemId}`)
+			);
+			if (!targetNode) return [];
+			// 2. 递归查找所有子节点
+			function collectChildren(currentItemId) {
+				Object.values(nodeData).forEach(node => {
+					const nodeParentMatch = node._prevClass.match(/parent-id-(\S+)/);
+					if (nodeParentMatch && nodeParentMatch[1] === currentItemId) {
+						const nodeIdMatch = node._prevClass.match(/item-id-(\S+)/);
+						if (nodeIdMatch) {
+							const nodeId = nodeIdMatch[1];
+							result.push(node);
+							collectChildren(nodeId); // 递归查找子节点的子节点
+						}
+					}
+				});
+			}
+			collectChildren(targetItemId);
+			return result;
+		},
 		// 返回带有特定标识符的class
 		findParentIdClass(element, target) {
 			return [...element.classList].find(className => 
